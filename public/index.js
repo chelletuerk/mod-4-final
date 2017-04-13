@@ -1,6 +1,6 @@
+// checkField()
+
 $('document').ready( () => loadInitialItems())
-
-
 
 const loadInitialItems = () => {
   fetch(`/api/v1/items`, {
@@ -13,13 +13,44 @@ const loadInitialItems = () => {
   .catch(err => err)
 }
 
+$('.garage-item-input, .reason-input, .clean-input').on('input', (e) => {
+  e.target.value.length > 0 ?
+  $('.garage-item-submit').prop('disabled', false) :
+  $('.garage-item-submit').prop('disabled', true)
+})
+
+$('.garage-item-submit').on('click', () => {
+  const $garageItem = $('.garage-item-input').val()
+  const $reason = $('.reason-input').val()
+  const $clean = $('.clean-input').val()
+  addItemToList($garageItem, $reason, $clean)
+  $('.garage-item-input').val('')
+  $('.reason-input').val('')
+  $('.clean-input').val('')
+  console.log($garageItem, $reason);
+})
+
 const renderItems = (data) => {
   data.map(obj => {
     $('.list').append(`
       <div id=${obj.id}><br>
-        ${obj.name}<br>
-        ${obj.reason}<br>
-        ${obj.cleanliness}
+        <h2>Gargabe Item:</h2> <h3>${obj.name}</h3>
+        <h2>Reason to hang onto this gem:</h2> <h3>${obj.reason}</h3>
+        <h2>How filthy is this thing?:</h2> <h3>${obj.cleanliness}</h3>
       </div>`)
   })
+}
+
+const addItemToList = (name, reason, cleanliness) => {
+  fetch(`/api/v1/items`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify({ name, reason, cleanliness })
+  })
+  .then(response => response.json()).then(data => {
+    renderItems([data[data.length-1]])
+  })
+  .catch(err => 'err')
 }
