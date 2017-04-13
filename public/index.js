@@ -1,5 +1,9 @@
+$('document').ready( () => loadInitialItems())
+
+
+
 const loadInitialItems = () => {
-  fetch(`/api/v1/gargageItem`, {
+  fetch(`/api/v1/items`, {
     method: 'GET',
   })
   .then(response => response.json())
@@ -11,9 +15,11 @@ const loadInitialItems = () => {
 
 const renderItems = (data) => {
   data.map(obj => {
-    $('.garage-item-container').append(`
-      <button class="garage-item-button" id=${obj.id}>${obj.name}
-      </button>
-      `)
+    $('.list').append(`
+      <div id=${obj.id}><br>
+        ${obj.name}<br>
+        ${obj.reason}<br>
+        ${obj.cleanliness}
+      </div>`)
   })
 }

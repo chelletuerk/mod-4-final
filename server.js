@@ -27,9 +27,25 @@ app.get('/api/v1/items', (request, response) => {
     response.status(200).json(items)
   })
   .catch((error) => {
-    console.error('error getting garage items:', error)
+    response.status(404).json({'Response 404': 'Not Found'})
   })
 })
+
+app.post('/api/v1/items', (request, response) => {
+  const { name, reason, cleanliness } = request.body
+  const item = { name, reason, cleanliness }
+  database('items').insert(item)
+  .then(function() {
+    database('items').select()
+      .then(function(items) {
+        response.status(201).json(items)
+      })
+      .catch(function(error) {
+        response.status(422).json({'Response 422': 'Unprocessable Entity'})
+      });
+  })
+})
+
 
 
 
