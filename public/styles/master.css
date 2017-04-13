@@ -1,16 +1,67 @@
 body {
-  background-color: lightblue;
 }
 
 h1 {
   font-size: 50px;
+  color: darkblue;
 }
 
 h2 {
-  color: magenta;
+  color: #fff;
   font-size: 20px;
 }
 
 h3 {
   font-size: 18px;
+  color: aqua;
+}
+
+.garage {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.garage-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+input[type=checkbox] {
+  position: absolute;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  opacity: 0;
+}
+
+input[type=checkbox]:checked ~ div.garage-panel--left {
+  transform: translateX(0);
+}
+
+input[type=checkbox]:checked ~ div.garage-panel--right {
+  transform: translateX(0);
+}
+
+.garage-panel {
+  background: orange;
+  width: 100%;
+  height: 100vh;
+  float: left;
+  position: relative;
+  z-index: 2;
+  transition: all 1s ease-out;
+}
+
+.garage-panel--left {
+  transform: translateY(-100%);
+}
+
+.garage-reveal {
+  background: #333;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
 }
