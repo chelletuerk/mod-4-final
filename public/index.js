@@ -34,7 +34,7 @@ const renderItems = (data) => {
   data.map(obj => {
     $('.list').append(`
       <div id=${obj.id}><br>
-        <h2>Gargabe Item:</h2> <h3>${obj.name}</h3>
+        <h2>Garage Item:</h2> <h3>${obj.name}</h3>
         <h2>Reason to hang onto this gem:</h2> <h3>${obj.reason}</h3>
         <h2>How filthy is this thing?:</h2> <h3>${obj.cleanliness}</h3>
       </div>`)
