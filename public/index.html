@@ -7,33 +7,48 @@
     <title>Garage Bin</title>
   </head>
   <body>
-    <h1>Garage Bin</h1>
-    <div class='main-section'>
-      <section class="garage-item-section">
-        <input type="text-input" placeholder="Garage Item" class="garage-item-input"></input>
-        <div class="garage-item-container"></div>
-      </section>
-      <section class="reason-section">
-        <div class='reason-wrapper'>
-          <input type="text-input" placeholder="Lingering Reason" class="reason-input"></input>
+    <div class="garage">
+    <div class="garage-wrapper">
+      <input type="checkbox" checked>
+    <div class="garage-panel garage-panel--left">
+    </div>
+      <div class="garage-reveal">
+        <div class="app">
+            <h1>Garage Bin</h1>
+            <div class='main-section'>
+              <section class="garage-item-section">
+                <input type="text-input" placeholder="Garage Item" class="garage-item-input"></input>
+                <button class="title"  disabled="true" type="button">Add Folder</button>
+                <div class="garage-item-container"></div>
+              </section>
+              <section class="reason-section">
+                <div class='reason-wrapper'>
+                  <input type="text-input" placeholder="Lingering Reason" class="reason-input"></input>
+                </div>
+                <div class='cleanliness-wrapper'>
+                  <form>
+                    <select class="cleanliness" name="cleanliness">
+                      <option value="sparkling">Sparkling</option>
+                      <option value="dusty">Dusty</option>
+                      <option value="rancid">Rancid</option>
+                    </select>
+                    <br><br>
+                  </form>
+                </div>
+                <div class="item-container">
+                  <button class="garage-item-submit button" disabled=true type="button">Add Garage Item</button>
+                  <button class="sort-by-item-name button" type="button">Sort By Item Name</button>
+                </div>
+                <section class="list">
+                </section>
+              </section>
+            </div>
         </div>
-        <div class='cleanliness-wrapper'>
-          <form>
-            <select class="cleanliness" name="cleanliness">
-              <option value="sparkling">Sparkling</option>
-              <option value="dusty">Dusty</option>
-              <option value="rancid">Rancid</option>
-            </select>
-            <br><br>
-          </form>
-        </div>
-        <div class="button-container">
-          <button class="garage-item-submit button" disabled=true type="button">Add Garage Item</button>
-          <button class="sort-by-item-name button" type="button">Sort By Item Name</button>
-        </div>
-        <section class="list">
-        </section>
-      </section>
+          <div class="garage-panel garage-panel--right">
+          </div>
+      </div>
+    </div>
+
       <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
       <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
       <script src="./index.js"></script>

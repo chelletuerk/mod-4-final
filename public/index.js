@@ -1,4 +1,5 @@
 let currentItems
+let clickedTitle
 let sortOrder = false
 
 $('document').ready( () => loadInitialItems())
@@ -9,9 +10,9 @@ const loadInitialItems = () => {
   })
   .then(response => response.json())
   .then(data => {
-    renderItems(data)
+    renderItems(data, clickedTitle)
   })
-  .catch(err => err)
+  .catch(err => console.error(err))
 }
 
 $('.garage-item-input, .reason-input, .clean-input').on('input', (e) => {
@@ -28,37 +29,29 @@ $('.garage-item-submit').on('click', () => {
   $('.garage-item-input').val('')
   $('.reason-input').val('')
   $('.clean-input').val('')
-  console.log($garageItem, $reason);
 })
 
-const renderItems = (data) => {
+const renderItems = (data, clickedTitle) => {
+  if (clickedTitle) {
+    data = data.filter(obj => obj.itemId === clickedTitle)
+    currentUrls = data
+  }
+
   data.map(obj => {
     $('.list').append(`
       <div id=${obj.id}><br>
-        <h2>Garage Item:</h2> <h3>${obj.name}</h3>
+        <h2>Garage Item:</h2> <h3 onclick='title'>${obj.name}</h3>
         <h2>Reason to hang onto this gem:</h2> <h3>${obj.reason}</h3>
         <h2>How filthy is this thing?:</h2> <h3>${obj.cleanliness}</h3>
-      </div>`)
+      </div>
+    `)
   })
 }
 
-// $('.sort-by-item-name').on('click', () => {
-//   if (!sortOrder) {
-//     renderItems(downSort())
-//     sortOrder = !sortOrder
-//   } else {
-//     renderItems(upSort())
-//     sortOrder = !sortOrder;
-//   }
-// })
-//
-// function upSort(data) {
-//   return data.name.sort((a, b) => a > b)
-// }
-//
-// function downSort(data) {
-//   return data.name.sort((a, b) => a < b);
-// }
+$('.garage-item-container').on('click', '.title', (e) => {
+  clickedTitle = e.target.id;
+  loadInitialItems(clickedTitle)
+})
 
 const addItemToList = (name, reason, cleanliness) => {
   fetch(`/api/v1/items`, {
@@ -66,11 +59,12 @@ const addItemToList = (name, reason, cleanliness) => {
       'Content-Type': 'application/json'
     },
     method: 'POST',
-    body: JSON.stringify({ name, reason, cleanliness })
+    body: JSON.stringify({ itemId: clickedTitle, name, reason, cleanliness })
   })
-  .then(response => response.json()).then(data => {
+  .then(response => response.json())
+  .then(data => {
     currentItems = data
     renderItems([data[data.length-1]])
   })
-  .catch(err => 'err')
+  .catch(err => console.error(err))
 }
