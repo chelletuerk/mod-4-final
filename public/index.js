@@ -15,6 +15,10 @@ const loadInitialItems = () => {
   .catch(err => console.error(err))
 }
 
+$('.garage-door-opener').on('click', () => {
+  $('.check').attr('checked', false)
+})
+
 $('.garage-item-input, .reason-input, .clean-input').on('input', (e) => {
   e.target.value.length > 0 ?
   $('.garage-item-submit').prop('disabled', false) :
