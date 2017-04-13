@@ -18,7 +18,14 @@
           <input type="text-input" placeholder="Lingering Reason" class="reason-input"></input>
         </div>
         <div class='cleanliness-wrapper'>
-          <input type="text-input" placeholder="How Not Clean Is It?" class="clean-input"></input>
+          <form>
+            <select class="cleanliness" name="cleanliness">
+              <option value="sparkling">Sparkling</option>
+              <option value="dusty">Dusty</option>
+              <option value="rancid">Rancid</option>
+            </select>
+            <br><br>
+          </form>
         </div>
         <div class="button-container">
           <button class="garage-item-submit button" disabled=true type="button">Add Garage Item</button>
