@@ -5,8 +5,8 @@ const md5 = require('md5')
 const fs = require('fs')
 
 const environment = process.env.NODE_ENV || 'development';
-// const configuration = require('./knexfile')[environment];
-// const database = require('knex')(configuration);
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
 
 
 app.use(bodyParser.json())
@@ -20,6 +20,25 @@ app.get('/', (request, response) => {
     response.send(file)
   })
 })
+
+app.get('/api/v1/items', (request, response) => {
+  database('items').select()
+  .then((items) => {
+    response.status(200).json(items)
+  })
+  .catch((error) => {
+    console.error('error getting garage items:', error)
+  })
+})
+
+
+
+
+
+
+
+
+
 
 app.listen(app.get('port'), () => {
   console.log(`Running on ${app.get('port')}`)
