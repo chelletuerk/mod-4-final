@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./styles/reset.css">
+    <link rel="stylesheet" href="./styles/master.css">
+    <title>Garage Bin</title>
+  </head>
+  <body>
+    <h1>Garage Bin</h1>
+    <div class='main-section'>
+      <section class="garage-item-section">
+        <input type="text-input" placeholder="Garage Item" class="garage-item-input"></input>
+        <div class="garage-item-container"></div>
+      </section>
+      <section class="reason-section">
+        <div class='reason-wrapper'>
+          <input type="text-input" placeholder="Lingering Reason" class="reason-input input"></input>
+        </div>
+        <div class="button-container">
+          <button class="garage-item-submit button"  disabled="true" type="button">Add Garage Item</button>
+          <button class="sort-by-item-name button" type="button">Sort By Item Name</button>
+        </div>
+      </section>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
+      <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+      <script src="./index.js"></script>
+    </div>
+  </body>
+</html>
