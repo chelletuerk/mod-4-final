@@ -1,4 +1,5 @@
-// checkField()
+let currentItems
+let sortOrder = false
 
 $('document').ready( () => loadInitialItems())
 
@@ -22,7 +23,7 @@ $('.garage-item-input, .reason-input, .clean-input').on('input', (e) => {
 $('.garage-item-submit').on('click', () => {
   const $garageItem = $('.garage-item-input').val()
   const $reason = $('.reason-input').val()
-  const $clean = $('.clean-input').val()
+  const $clean = $('.cleanliness option:selected').text()
   addItemToList($garageItem, $reason, $clean)
   $('.garage-item-input').val('')
   $('.reason-input').val('')
@@ -41,6 +42,24 @@ const renderItems = (data) => {
   })
 }
 
+// $('.sort-by-item-name').on('click', () => {
+//   if (!sortOrder) {
+//     renderItems(downSort())
+//     sortOrder = !sortOrder
+//   } else {
+//     renderItems(upSort())
+//     sortOrder = !sortOrder;
+//   }
+// })
+//
+// function upSort(data) {
+//   return data.name.sort((a, b) => a > b)
+// }
+//
+// function downSort(data) {
+//   return data.name.sort((a, b) => a < b);
+// }
+
 const addItemToList = (name, reason, cleanliness) => {
   fetch(`/api/v1/items`, {
     headers: {
@@ -50,6 +69,7 @@ const addItemToList = (name, reason, cleanliness) => {
     body: JSON.stringify({ name, reason, cleanliness })
   })
   .then(response => response.json()).then(data => {
+    currentItems = data
     renderItems([data[data.length-1]])
   })
   .catch(err => 'err')
