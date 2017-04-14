@@ -31,6 +31,16 @@ app.get('/api/v1/items', (request, response) => {
   })
 })
 
+app.get('/api/v1/items/:id', (request, response) => {
+  database('items').where('id', request.params.id).select()
+  .then((item) => {
+    response.status(200).json(item)
+  })
+  .catch((error) => {
+    response.status(404).json({'Response 404': 'Not Found'})
+  })
+})
+
 app.get('/api/v1/sorted_items', (request, response) => {
   database('items').select()
   .then((items) => {
@@ -46,6 +56,8 @@ app.get('/api/v1/sorted_items', (request, response) => {
     response.status(404).json({'Response 404': 'Not Found'})
   })
 })
+
+
 
 app.post('/api/v1/items', (request, response) => {
   const { name, reason, cleanliness } = request.body
