@@ -61,17 +61,6 @@ app.post('/api/v1/items', (request, response) => {
       });
   })
 })
-app.get('/api/v1/items/:id', (request, response)=> {
-  const { id } = request.params
-    database('items').where('id', id).select().del()
-    .then(function(count) {
-      if (count === 0) {
-        response.status(422).json({'Response 422': 'Unprocessable Entity'})
-      } else {
-        response.status(200).json({'Response 200': 'OK' })
-      }
-    })
-})
 
 app.listen(app.get('port'), () => {
   console.log(`Running on ${app.get('port')}`)
