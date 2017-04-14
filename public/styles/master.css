@@ -27,6 +27,10 @@ p {
   color: #2D3142;
 }
 
+.garage-title:hover {
+  cursor: pointer;
+}
+
 .garage-item-input {
   height: 40px;
   width: 200px;
