@@ -15,6 +15,22 @@ const loadInitialItems = () => {
   .catch(err => console.error(err))
 }
 
+$('.sort-by-item-name').on('click', () => {
+  loadSortedItems()
+})
+
+const loadSortedItems = () => {
+  fetch(`/api/v1/sorted_items`, {
+    method: 'GET',
+  })
+  .then(response => response.json())
+  .then(data => {
+    $('.list').empty()
+    renderItems(data, clickedTitle)
+  })
+  .catch(err => console.error(err))
+}
+
 $('.garage-door-opener').on('click', () => {
   $('.check').attr('checked', false)
 })
@@ -26,7 +42,8 @@ $('.garage-item-input, .reason-input, .clean-input').on('input', (e) => {
 })
 
 $('.garage-item-submit').on('click', () => {
-  const $garageItem = $('.garage-item-input').val()
+  const $garageVal = $('.garage-item-input').val()
+  const $garageItem = $garageVal.toLowerCase()
   const $reason = $('.reason-input').val()
   const $clean = $('.cleanliness option:selected').text()
   addItemToList($garageItem, $reason, $clean)

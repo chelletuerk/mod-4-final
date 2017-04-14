@@ -31,6 +31,22 @@ app.get('/api/v1/items', (request, response) => {
   })
 })
 
+app.get('/api/v1/sorted_items', (request, response) => {
+  database('items').select()
+  .then((items) => {
+    const sortedItems = items.sort((a, b) => {
+      const aCode = a.name.split('')[0].charCodeAt()
+      const bCode = b.name.split('')[0].charCodeAt()
+      return aCode > bCode
+    })
+
+    response.status(200).json(sortedItems)
+  })
+  .catch((error) => {
+    response.status(404).json({'Response 404': 'Not Found'})
+  })
+})
+
 app.post('/api/v1/items', (request, response) => {
   const { name, reason, cleanliness } = request.body
   const item = { name, reason, cleanliness }
@@ -45,16 +61,6 @@ app.post('/api/v1/items', (request, response) => {
       });
   })
 })
-
-
-
-
-
-
-
-
-
-
 
 app.listen(app.get('port'), () => {
   console.log(`Running on ${app.get('port')}`)
