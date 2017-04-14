@@ -1,8 +1,37 @@
-let currentItems
-let clickedTitle
-let sortOrder = false
-
 $('document').ready( () => loadInitialItems())
+
+const cleanlinessCount = (data) => {
+  let sparkling = 0
+  let dusty = 0
+  let rancid = 0
+
+  data.forEach((obj) => {
+    const objectCleanliness = obj.cleanliness
+
+    if (objectCleanliness === 'Rancid') rancid += 1
+    if (objectCleanliness === 'Dusty') dusty += 1
+    if (objectCleanliness === 'Sparkling') sparkling += 1
+
+    $('.cleanliness-count').html(`
+      <p>Rancid: ${rancid}</p>
+      <p>Dusty: ${dusty}</p>
+      <p>Sparkling: ${sparkling}</p>
+    `)
+  })
+}
+
+const loadSingleItem = (id) => {
+  fetch(`/api/v1/items/${id}`, {
+    method: 'GET',
+  })
+  .then(response => response.json())
+  .then(data => {
+    $('.list').empty()
+    cleanlinessCount(data)
+    renderItems(data)
+  })
+  .catch(err => console.error(err))
+}
 
 const loadInitialItems = () => {
   fetch(`/api/v1/items`, {
@@ -10,13 +39,19 @@ const loadInitialItems = () => {
   })
   .then(response => response.json())
   .then(data => {
-    renderItems(data, clickedTitle)
+    $('.list').empty()
+    cleanlinessCount(data)
+    renderItems(data)
   })
   .catch(err => console.error(err))
 }
 
 $('.sort-by-item-name').on('click', () => {
   loadSortedItems()
+})
+
+$('.load-all-items').on('click', () => {
+  loadInitialItems()
 })
 
 const loadSortedItems = () => {
@@ -26,7 +61,8 @@ const loadSortedItems = () => {
   .then(response => response.json())
   .then(data => {
     $('.list').empty()
-    renderItems(data, clickedTitle)
+    cleanlinessCount(data)
+    renderItems(data)
   })
   .catch(err => console.error(err))
 }
@@ -52,16 +88,16 @@ $('.garage-item-submit').on('click', () => {
   $('.clean-input').val('')
 })
 
-const renderItems = (data, clickedTitle) => {
-  if (clickedTitle) {
-    data = data.filter(obj => obj.itemId === clickedTitle)
-    currentUrls = data
-  }
+$('.list, .garage-title').on('click', (e) => {
+  const id = e.target.id
+  loadSingleItem(id)
+})
 
+const renderItems = (data) => {
   data.map(obj => {
     $('.list').append(`
-      <div id=${obj.id}><br>
-        <h2>Garage Item:</h2> <h3 onclick='title'>${obj.name}</h3>
+      <div><br>
+        <h2 id=${obj.id} class="garage-title">Garage Item: ${obj.name}</h2>
         <h2>Reason to hang onto this gem:</h2> <h3>${obj.reason}</h3>
         <h2>How filthy is this thing?:</h2> <h3>${obj.cleanliness}</h3>
       </div>
@@ -69,23 +105,20 @@ const renderItems = (data, clickedTitle) => {
   })
 }
 
-$('.garage-item-container').on('click', '.title', (e) => {
-  clickedTitle = e.target.id;
-  loadInitialItems(clickedTitle)
-})
-
 const addItemToList = (name, reason, cleanliness) => {
   fetch(`/api/v1/items`, {
     headers: {
       'Content-Type': 'application/json'
     },
     method: 'POST',
-    body: JSON.stringify({ itemId: clickedTitle, name, reason, cleanliness })
+    body: JSON.stringify({ name, reason, cleanliness })
   })
   .then(response => response.json())
   .then(data => {
     currentItems = data
-    renderItems([data[data.length-1]])
+    $('.list').empty()
+    cleanlinessCount(data)
+    renderItems(data)
   })
   .catch(err => console.error(err))
 }
